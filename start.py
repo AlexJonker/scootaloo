@@ -1,9 +1,32 @@
+import os
+import sys
 import subprocess
 import platform
 try:
 
     # Determine the OS
     OS = platform.system()
+
+
+    # Function to run a shell command
+    def run_command(command, shell=True):
+        result = subprocess.run(command, shell=shell, text=True)
+        if result.returncode != 0:
+            print(f"Error running command: {command}")
+            exit()
+
+
+    # Check if .env file exists
+    if not os.path.exists(".env"):
+        print("Warning: .env file not found. Creating one now...")
+        f = open(".env", "a")
+        SECRET_KEY = input("Please enter the secret key: ")
+        f.write(f"SECRET_KEY = {SECRET_KEY}")
+
+    # Check if virtual environment exists
+    if not os.path.exists(".venv"):
+        print("Virtual environment not found. Creating one...")
+        run_command("python -m venv .venv")
 
     # Define the virtual environment activation command
     if OS in ["Linux", "Darwin"]:
@@ -17,12 +40,7 @@ try:
         exit()
 
 
-    # Function to run a shell command
-    def run_command(command, shell=True):
-        result = subprocess.run(command, shell=shell, text=True)
-        if result.returncode != 0:
-            print(f"Error running command: {command}")
-            exit()
+
 
 
     # Activate virtual environment
