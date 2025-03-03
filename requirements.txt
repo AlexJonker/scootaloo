@@ -1,2 +1,2 @@
 django
-pythton-decouple
+python-decouple
