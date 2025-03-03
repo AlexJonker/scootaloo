@@ -17,11 +17,22 @@ try:
             print(f"Error running command: {command}")
             exit()
 
+    # Check if .env file exists
+    if not os.path.exists(".env"):
+        print("Warning: .env file not found. Creating one now...")
+        f = open(".env", "a")
+        size = 69
+        chars = string.ascii_letters + string.digits + string.punctuation
+        SECRET_KEY = ''.join(c.lower() if random.choice([True, False]) else c for c in (random.choice(chars) for _ in range(size)))
+        f.write(f"SECRET_KEY={SECRET_KEY}")
+        f.close()
+        print("Created .env")
 
     # Check if virtual environment exists
     if not os.path.exists(".venv"):
         print("Virtual environment not found. Creating one...")
         run_command("python -m venv .venv")
+        print("Created .venv")
 
 
 
@@ -36,18 +47,8 @@ try:
         print("Unsupported OS")
         exit()
 
-    # Check if .env file exists
-    if not os.path.exists(".env"):
-        print("Warning: .env file not found. Creating one now...")
-        f = open(".env", "a")
 
-        size = 69
-        chars = string.ascii_letters + string.digits + string.punctuation
-        SECRET_KEY = ''.join(c.lower() if random.choice([True, False]) else c for c in (random.choice(chars) for _ in range(size)))
 
-        SECRET_KEY = SECRET_KEY
-        f.write(f"SECRET_KEY={SECRET_KEY}")
-        exit()
 
     # Activate virtual environment
     if OS == "Windows":
