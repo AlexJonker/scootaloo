@@ -1,7 +1,9 @@
 import os
-import sys
 import subprocess
 import platform
+import string
+import random
+
 try:
 
     # Determine the OS
@@ -16,17 +18,12 @@ try:
             exit()
 
 
-    # Check if .env file exists
-    if not os.path.exists(".env"):
-        print("Warning: .env file not found. Creating one now...")
-        f = open(".env", "a")
-        SECRET_KEY = input("Please enter the secret key: ")
-        f.write(f"SECRET_KEY = {SECRET_KEY}")
-
     # Check if virtual environment exists
     if not os.path.exists(".venv"):
         print("Virtual environment not found. Creating one...")
         run_command("python -m venv .venv")
+
+
 
     # Define the virtual environment activation command
     if OS in ["Linux", "Darwin"]:
@@ -39,9 +36,18 @@ try:
         print("Unsupported OS")
         exit()
 
+    # Check if .env file exists
+    if not os.path.exists(".env"):
+        print("Warning: .env file not found. Creating one now...")
+        f = open(".env", "a")
 
+        size = 69
+        chars = string.ascii_letters + string.digits + string.punctuation
+        SECRET_KEY = ''.join(c.lower() if random.choice([True, False]) else c for c in (random.choice(chars) for _ in range(size)))
 
-
+        SECRET_KEY = SECRET_KEY
+        f.write(f"SECRET_KEY={SECRET_KEY}")
+        exit()
 
     # Activate virtual environment
     if OS == "Windows":
@@ -57,6 +63,8 @@ try:
 
         for cmd in commands:
             run_command(cmd)
+
+
 except KeyboardInterrupt as e:
     print("\nStopping server...")
     exit()
