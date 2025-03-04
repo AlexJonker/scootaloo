@@ -12,7 +12,7 @@ try:
     # Define the virtual environment activation command
     if OS in ["Linux", "Darwin"]:
         print(f"Activating venv for {OS}")
-        activate_cmd = "source .venv/bin/activate"
+        activate_cmd = ". .venv/bin/activate"
     elif OS == "Windows":
         print(f"Activating venv for {OS}")
         activate_cmd = ".venv\\Scripts\\activate"
