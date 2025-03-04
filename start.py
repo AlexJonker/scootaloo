@@ -56,14 +56,14 @@ try:
 
         # Activate virtual environment
         if OS == "Windows":
-            venv_cmd = f'cmd.exe /c "{activate_cmd} && pip install -r requirements.txt && py manage.py makemigrations && py manage.py migrate && py manage.py runserver {port}"'
+            venv_cmd = f'cmd.exe /c "{activate_cmd} && pip install -r requirements.txt && py manage.py makemigrations && py manage.py migrate && py manage.py runserver 0.0.0.0:{port}"'
             subprocess.run(venv_cmd, shell=True)
         else:
             commands = [
                 f"{activate_cmd} && pip install -r requirements.txt",
                 f"{activate_cmd} && python manage.py makemigrations",
                 f"{activate_cmd} && python manage.py migrate",
-                f"{activate_cmd} && python manage.py runserver {port}"
+                f"{activate_cmd} && python manage.py runserver 0.0.0.0:{port}"
             ]
 
             for cmd in commands:
