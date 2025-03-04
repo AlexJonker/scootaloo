@@ -31,7 +31,7 @@ try:
     # Check if virtual environment exists
     if not os.path.exists(".venv"):
         print("Virtual environment not found. Creating one...")
-        run_command("python -m venv .venv")
+        run_command("py -m venv .venv")
         print("Created .venv")
 
 
@@ -52,7 +52,7 @@ try:
 
     # Activate virtual environment
     if OS == "Windows":
-        venv_cmd = f'cmd.exe /c "{activate_cmd} && pip install -r requirements.txt && python manage.py makemigrations && python manage.py migrate && python manage.py runserver"'
+        venv_cmd = f'cmd.exe /c "{activate_cmd} && pip install -r requirements.txt && py manage.py makemigrations && py manage.py migrate && py manage.py runserver"'
         subprocess.run(venv_cmd, shell=True)
     else:
         commands = [
