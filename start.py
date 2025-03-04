@@ -9,6 +9,16 @@ try:
     # Determine the OS
     OS = platform.system()
 
+    # Define the virtual environment activation command
+    if OS in ["Linux", "Darwin"]:
+        print(f"Activating venv for {OS}")
+        activate_cmd = "source .venv/bin/activate"
+    elif OS == "Windows":
+        print(f"Activating venv for {OS}")
+        activate_cmd = ".venv\\Scripts\\activate"
+    else:
+        print("Unsupported OS")
+        exit()
 
     # Function to run a shell command
     def run_command(command, shell=True):
@@ -31,21 +41,13 @@ try:
     # Check if virtual environment exists
     if not os.path.exists(".venv"):
         print("Virtual environment not found. Creating one...")
-        run_command("py -m venv .venv")
+        if OS in ["Linux", "Darwin"]:
+            run_command("python -m venv .venv")
+        elif OS == "Windows":
+            run_command("py -m venv .venv")
+
         print("Created .venv")
 
-
-
-    # Define the virtual environment activation command
-    if OS in ["Linux", "Darwin"]:
-        print(f"Activating venv for {OS}")
-        activate_cmd = "source .venv/bin/activate"
-    elif OS == "Windows":
-        print(f"Activating venv for {OS}")
-        activate_cmd = ".venv\\Scripts\\activate"
-    else:
-        print("Unsupported OS")
-        exit()
 
 
 
