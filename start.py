@@ -29,6 +29,9 @@ def create_virtualenv(OS):
         run_command(["py", "-m", "venv", ".venv"])
     print("Created .venv")
 
+def create_conf():
+    run_command(["cp conf.json.example conf.json"] if OS in ["Linux", "Darwin"] else ["copy", "conf.json.example", "conf.json"], shell=True)
+
 try:
     # Determine the OS
     OS = platform.system()
@@ -51,6 +54,9 @@ try:
     # Check if virtual environment exists
     if not os.path.exists(".venv"):
         create_virtualenv(OS)
+
+    if not os.path.exists("conf.json"):
+        create_conf()
 
     with open('conf.json', 'r') as file:
         conf = json.load(file)
