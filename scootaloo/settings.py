@@ -13,6 +13,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv, find_dotenv
+import json
+
+with open('conf.json', 'r') as file:
+        conf = json.load(file)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -85,14 +89,14 @@ WSGI_APPLICATION = 'scootaloo.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-
+config =  conf["mysql"]
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'scootaloo',
-        'HOST': 'localhost',
-        'USER': 'root',
-        'PASSWORD': ''
+        'NAME': config["NAME"],
+        'HOST': config["HOST"],
+        'USER': config["USER"],
+        'PASSWORD': config["PASSWORD"],
     }
 }
 
