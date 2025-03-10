@@ -30,7 +30,7 @@ def create_virtualenv(OS):
     print("Created .venv")
 
 def create_conf():
-    run_command(["cp conf.json.example conf.json"] if OS in ["Linux", "Darwin"] else ["copy", "conf.json.example", "conf.json"], shell=True)
+    run_command(["cp conf.json.example conf.json"] if OS in ["Linux", "Darwin"] else ["copy conf.json.example conf.json"], shell=True)
 
 try:
     # Determine the OS
