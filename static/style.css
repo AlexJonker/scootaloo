@@ -70,6 +70,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     width: 100%;
     height: 160px;
     background-color: yellow;
@@ -83,6 +84,12 @@ body {
     height: 80px;
     background-color: pink;
     
+}
+
+.left-sidebar-container-header-logo img {
+    width: 90px;
+    height: 90px;
+    font-size: 20px;
 }
 
 .left-sidebar-container-content-messages {
@@ -107,9 +114,28 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     width: 100%;
     height: 60px;
     background-color: orange;
+}
+
+.left-sidebar-container-footer-fodder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    background-color: purple;
+}
+
+.left-sidebar-container-footer-logout {
+    display: flex;    
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    background-color: rgb(215, 16, 49);
 }
 
 /* 
@@ -166,6 +192,13 @@ body {
     }
     .left-sidebar-container-content-friends {
         height: 30px;
+    }
+    
+}
+
+@media screen and (max-width: 600px) {
+    .left-sidebar-container-header-logo {
+        width: 100%;
     }
     
 }
