@@ -7,57 +7,50 @@ import json
 
 def run_command(command, shell=False):
     try:
-        result = subprocess.run(command, shell=shell, text=True, check=True)
+        subprocess.run(command, shell=shell, text=True, check=True)
     except subprocess.CalledProcessError as e:
         print(f"Error running command: {command}\n{e}")
-        exit()
+        exit(1)
 
 def create_env_file():
     print("Warning: .env file not found. Creating one now...")
     size = 69
     chars = string.ascii_letters + string.digits + string.punctuation
-    SECRET_KEY = ''.join(random.choice(chars) for _ in range(size))
+    secret_key = ''.join(random.choice(chars) for _ in range(size))
     with open(".env", "w") as f:
-        f.write(f"SECRET_KEY={SECRET_KEY}")
+        f.write(f"SECRET_KEY={secret_key}")
     print("Created .env")
 
-def create_virtualenv(OS):
+def create_virtualenv(os_name):
     print("Virtual environment not found. Creating one...")
-    if OS == "Windows":
-        run_command("py -m venv .venv", shell=True)
-    else:
-        run_command("python -m venv .venv", shell=True)
+    command = "py -m venv .venv" if os_name == "Windows" else "python -m venv .venv"
+    run_command(command, shell=True)
     print("Created .venv")
 
-def create_conf(OS):
+def create_conf(os_name):
     if not os.path.exists("conf.json.example"):
         print("Error: conf.json.example file not found.")
-        exit()
+        exit(1)
 
-    if OS == "Windows":
-        run_command("copy conf.json.example conf.json", shell=True)
-    else:
-        run_command("cp conf.json.example conf.json", shell=True)
+    command = "copy conf.json.example conf.json" if os_name == "Windows" else "cp conf.json.example conf.json"
+    run_command(command, shell=True)
 
 def main():
-    OS = platform.system()
-    if OS not in ["Linux", "Darwin", "Windows"]:
+    os_name = platform.system()
+    if os_name not in ["Linux", "Darwin", "Windows"]:
         print("Unsupported OS")
-        exit()
+        exit(1)
 
-    if OS == "Windows":
-        activate_cmd = ".\\venv\\Scripts\\activate"
-    else:
-        activate_cmd = ". .venv/bin/activate"
+    activate_cmd = ".\\venv\\Scripts\\activate" if os_name == "Windows" else ". .venv/bin/activate"
 
     if not os.path.exists(".env"):
         create_env_file()
 
     if not os.path.exists(".venv"):
-        create_virtualenv(OS)
+        create_virtualenv(os_name)
 
     if not os.path.exists("conf.json"):
-        create_conf(OS)
+        create_conf(os_name)
 
     with open('conf.json', 'r') as file:
         conf = json.load(file)
@@ -66,7 +59,7 @@ def main():
     install_cmd = f"{activate_cmd} && pip install -r requirements.txt"
     runserver_cmd = f"{activate_cmd} && django-admin runserver --pythonpath=. --settings=main 0.0.0.0:{port}"
 
-    if OS == "Windows":
+    if os_name == "Windows":
         run_command(f'cmd.exe /c "{install_cmd} && {runserver_cmd}"', shell=True)
     else:
         run_command(install_cmd, shell=True)
@@ -77,4 +70,4 @@ if __name__ == "__main__":
         main()
     except KeyboardInterrupt:
         print("\nStopping server...")
-        exit()
+        exit(0)
