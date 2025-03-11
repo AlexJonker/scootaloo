@@ -51,7 +51,7 @@ def main():
 
     port = conf["port"]
     install_cmd = f"{activate_cmd} && pip install -r requirements.txt"
-    runserver_cmd = f"{activate_cmd} && django-admin runserver --pythonpath=. --settings=main 0.0.0.0:{port}"
+    runserver_cmd = f"{activate_cmd} && django-admin runserver --pythonpath=. --settings=main {port}"
 
     if OS == "Windows":
         run_command(f'cmd.exe /c "{install_cmd} && {runserver_cmd}"', shell=True)
