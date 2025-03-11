@@ -31,4 +31,5 @@ urlpatterns = [
         'title': 'scootaloo',
         'author': 'Alex, Natas and Brent'
     }), name='aboutpage'),
+    path('login', TemplateView.as_view(template_name='login.html'), name='login'),
 ] + static(STATIC_URL, document_root=STATICFILES_DIRS[0])
