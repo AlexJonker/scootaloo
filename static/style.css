@@ -1,0 +1,172 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+/* 
+    body
+*/
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    color: white;
+    height: 100vh;
+    width: 100%;
+}
+
+/* 
+    MAIN CONTAINER
+*/
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    height: 90%;
+    width: 1300px;
+    background-color: orange;
+}
+
+/* 
+    LEFT SIDEBAR
+*/
+
+.left-sidebar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 280px;
+    background-color: blue;
+    border: 2%;
+}
+
+.left-sidebar-container-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    background-color: purple;
+}
+
+.left-sidebar-container-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 430px;
+    background-color: green;
+}
+
+.left-sidebar-container-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 160px;
+    background-color: yellow;
+}
+
+.left-sidebar-container-header-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    height: 80px;
+    background-color: pink;
+    
+}
+
+.left-sidebar-container-content-messages {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    background-color: red;
+}
+
+.left-sidebar-container-content-groups {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    background-color: blue;
+}
+
+.left-sidebar-container-content-friends {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    background-color: orange;
+}
+
+/* 
+    middle screen
+*/
+
+
+.middle-screen-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 734px;
+    background-color: aqua;
+}
+
+/* 
+    right sidebar
+*/
+
+.right-sidebar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 280px;
+    background-color: red;
+    border-radius: 2%;
+}
+
+@media screen and (max-width: 1300px) {
+    .main-container {
+        width: 100%;
+    }
+    .left-sidebar-container {
+        width: 50%;
+    }
+    .middle-screen-container {
+        width: 100%;
+    }
+
+    .right-sidebar-container {
+        width: 50%;
+    }
+    
+}
+
+@media screen and (max-width: 1000px) {
+    .left-sidebar-container-content-messages {
+        height: 30px;
+    }
+    .left-sidebar-container-content-groups {
+        height: 30px;
+    }
+    .left-sidebar-container-content-friends {
+        height: 30px;
+    }
+    
+}
+
