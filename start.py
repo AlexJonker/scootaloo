@@ -16,62 +16,52 @@ def create_env_file():
     print("Warning: .env file not found. Creating one now...")
     size = 69
     chars = string.ascii_letters + string.digits + string.punctuation
-    SECRET_KEY = ''.join(c.lower() if random.choice([True, False]) else c for c in (random.choice(chars) for _ in range(size)))
+    SECRET_KEY = ''.join(random.choice(chars) for _ in range(size))
     with open(".env", "w") as f:
         f.write(f"SECRET_KEY={SECRET_KEY}")
     print("Created .env")
 
 def create_virtualenv(OS):
     print("Virtual environment not found. Creating one...")
-    if OS in ["Linux", "Darwin"]:
-        run_command(["python", "-m", "venv", ".venv"])
-    elif OS == "Windows":
-        run_command(["py", "-m", "venv", ".venv"])
+    run_command(["python", "-m", "venv", ".venv"] if OS in ["Linux", "Darwin"] else ["py", "-m", "venv", ".venv"])
     print("Created .venv")
 
-try:
-    # Determine the OS
-    OS = platform.system()
+def create_conf(OS):
+    run_command(["cp", "conf.json.example", "conf.json"] if OS in ["Linux", "Darwin"] else ["copy", "conf.json.example", "conf.json"], shell=True)
 
-    # Define the virtual environment activation command
-    if OS in ["Linux", "Darwin"]:
-        print(f"Activating venv for {OS}")
-        activate_cmd = ". .venv/bin/activate"
-    elif OS == "Windows":
-        print(f"Activating venv for {OS}")
-        activate_cmd = ".venv\\Scripts\\activate"
-    else:
+def main():
+    OS = platform.system()
+    if OS not in ["Linux", "Darwin", "Windows"]:
         print("Unsupported OS")
         exit()
 
-    # Check if .env file exists
+    activate_cmd = ". .venv/bin/activate" if OS in ["Linux", "Darwin"] else ".venv\\Scripts\\activate"
+
     if not os.path.exists(".env"):
         create_env_file()
 
-    # Check if virtual environment exists
     if not os.path.exists(".venv"):
         create_virtualenv(OS)
+
+    if not os.path.exists("conf.json"):
+        create_conf(OS)
 
     with open('conf.json', 'r') as file:
         conf = json.load(file)
 
     port = conf["port"]
+    install_cmd = f"{activate_cmd} && pip install -r requirements.txt"
+    runserver_cmd = f"{activate_cmd} && django-admin runserver --pythonpath=. --settings=main 0.0.0.0:{port}"
 
-    # Activate virtual environment and run commands
     if OS == "Windows":
-        venv_cmd = f'cmd.exe /c "{activate_cmd} && pip install -r requirements.txt && py manage.py makemigrations && py manage.py migrate && py manage.py runserver 0.0.0.0:{port}"'
-        run_command(venv_cmd, shell=True)
+        run_command(f'cmd.exe /c "{install_cmd} && {runserver_cmd}"', shell=True)
     else:
-        commands = [
-            f"{activate_cmd} && pip install -r requirements.txt",
-            f"{activate_cmd} && python manage.py makemigrations",
-            f"{activate_cmd} && python manage.py migrate",
-            f"{activate_cmd} && python manage.py runserver 0.0.0.0:{port}"
-        ]
+        run_command(install_cmd, shell=True)
+        run_command(runserver_cmd, shell=True)
 
-        for cmd in commands:
-            run_command(cmd, shell=True)
-
-except KeyboardInterrupt:
-    print("\nStopping server...")
-    exit()
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\nStopping server...")
+        exit()

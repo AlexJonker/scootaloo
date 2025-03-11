@@ -1,0 +1,9 @@
+{
+  "port": 8368,
+  "mysql": {
+    "NAME": "scootaloo",
+    "HOST": "localhost",
+    "USER": "root",
+    "PASSWORD": ""
+  }
+}
