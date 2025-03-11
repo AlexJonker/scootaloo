@@ -5,9 +5,9 @@ import string
 import random
 import json
 
-def run_command(command, shell=False):
+def run_command(command):
     try:
-        result = subprocess.run(command, shell=shell, text=True, check=True)
+        subprocess.run(command, shell=True, text=True, check=True)
     except subprocess.CalledProcessError as e:
         print(f"Error running command: {command}\n{e}")
         exit()
@@ -23,11 +23,11 @@ def create_env_file():
 
 def create_virtualenv(OS):
     print("Virtual environment not found. Creating one...")
-    run_command(["python", "-m", "venv", ".venv"] if OS in ["Linux", "Darwin"] else ["py", "-m", "venv", ".venv"])
+    run_command("python -m venv .venv" if OS in ["Linux", "Darwin"] else "py -m venv .venv")
     print("Created .venv")
 
 def create_conf(OS):
-    run_command(["cp", "conf.json.example", "conf.json"] if OS in ["Linux", "Darwin"] else ["copy", "conf.json.example", "conf.json"], shell=True)
+    run_command("cp conf.json.example conf.json" if OS in ["Linux", "Darwin"] else "copy conf.json.example conf.json")
 
 def main():
     OS = platform.system()
@@ -54,10 +54,10 @@ def main():
     runserver_cmd = f"{activate_cmd} && django-admin runserver --pythonpath=. --settings=main {port}"
 
     if OS == "Windows":
-        run_command(f'cmd.exe /c "{install_cmd} && {runserver_cmd}"', shell=True)
+        run_command(f'cmd.exe /c "{install_cmd} && {runserver_cmd}"')
     else:
-        run_command(install_cmd, shell=True)
-        run_command(runserver_cmd, shell=True)
+        run_command(install_cmd)
+        run_command(runserver_cmd)
 
 if __name__ == "__main__":
     try:
