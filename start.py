@@ -23,11 +23,21 @@ def create_env_file():
 
 def create_virtualenv(OS):
     print("Virtual environment not found. Creating one...")
-    run_command(["python", "-m", "venv", ".venv"] if OS in ["Linux", "Darwin"] else ["py", "-m", "venv", ".venv"])
+    if OS == "Windows":
+        run_command("py -m venv .venv", shell=True)
+    else:
+        run_command("python -m venv .venv", shell=True)
     print("Created .venv")
 
 def create_conf(OS):
-    run_command(["cp", "conf.json.example", "conf.json"] if OS in ["Linux", "Darwin"] else ["copy", "conf.json.example", "conf.json"], shell=True)
+    if not os.path.exists("conf.json.example"):
+        print("Error: conf.json.example file not found.")
+        exit()
+
+    if OS == "Windows":
+        run_command("copy conf.json.example conf.json", shell=True)
+    else:
+        run_command("cp conf.json.example conf.json", shell=True)
 
 def main():
     OS = platform.system()
@@ -35,7 +45,10 @@ def main():
         print("Unsupported OS")
         exit()
 
-    activate_cmd = ". .venv/bin/activate" if OS in ["Linux", "Darwin"] else ".venv\\Scripts\\activate"
+    if OS == "Windows":
+        activate_cmd = ".\\venv\\Scripts\\activate"
+    else:
+        activate_cmd = ". .venv/bin/activate"
 
     if not os.path.exists(".env"):
         create_env_file()

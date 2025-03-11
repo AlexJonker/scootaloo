@@ -26,7 +26,7 @@ TEMPLATES = [
 ]
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='home.html'), name='homepage'),
+    path('', TemplateView.as_view(template_name='index.html'), name='homepage'),
     path('about', TemplateView.as_view(template_name='about.html', extra_context={
         'title': 'scootaloo',
         'author': 'Alex, Natas and Brent'
