@@ -82,20 +82,21 @@ def register_user(username, email, password):
     return True
 
 
+from django.contrib import messages
 
-# Handle login requests
 def login_view(request):
     if request.method == 'POST':
         identifier = request.POST.get('identifier')
         password = hashlib.md5(request.POST.get('password').encode('utf-8')).hexdigest()
-        print(f"Login attempt: {identifier} {password}")
+        
         if verify_login(identifier, password):
             return HttpResponse("Login successful!")
         else:
-            return HttpResponse("Invalid login credentials!")
+            return render(request, 'login.html', {'error': 'Invalid login credentials!'})
+
     return render(request, 'login.html')
 
-# Handle signup requests
+
 def signup_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -104,11 +105,11 @@ def signup_view(request):
         password_retype = hashlib.md5(request.POST.get('password-retype').encode('utf-8')).hexdigest()
 
         if password != password_retype:
-            return HttpResponse("Passwords do not match!")
+            return render(request, 'signup.html', {'error': 'Passwords do not match!'})
 
         success = register_user(username, email, password)
         if not success:
-            return HttpResponse("Username or email is already in use!")
+            return render(request, 'signup.html', {'error': 'Username or email is already in use!'})
 
         return HttpResponseRedirect('/login')
 

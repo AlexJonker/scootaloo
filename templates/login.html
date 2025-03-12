@@ -15,7 +15,11 @@
         <input type="text" id="identifier" name="identifier" required>
         <label for="password">Password</label>
         <input type="password" id="password" name="password" required>
-        <br><br>
+        <br>
+        {% if error %}
+        <div style="color: red; font-weight: bold;">{{ error }}</div>
+        {% endif %}
+        <br>
         <button type="submit">Login</button>
     </form>
     <p>Don't have an account? <a href="/signup">Sign up</a></p>

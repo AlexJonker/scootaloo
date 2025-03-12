@@ -11,6 +11,7 @@
     <h1>Sign Up</h1>
     <form method="POST" action="/signup">
         {% csrf_token %}
+        
         <label for="username">Username</label>
         <input type="text" id="username" name="username" required>
         <label for="email">E-mail</label>
@@ -19,7 +20,11 @@
         <input type="password" id="password" name="password" required>
         <label for="password-retype">Please confirm your password</label>
         <input type="password" id="password-retype" name="password-retype" required>
-        <br><br>
+        <br>
+        {% if error %}
+        <div style="color: red; font-weight: bold;">{{ error }}</div>
+        {% endif %}
+        <br>
         <button type="submit">Sign Up</button>
     </form>
     <p>Already have an account? <a href="/login">Login</a></p>
