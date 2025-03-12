@@ -21,7 +21,7 @@ def login_view(request):
             return HttpResponse("Login successful!")
         else:
             return HttpResponse("Invalid login credentials!")
-    return render(request, 'login-alex.html')
+    return render(request, 'login.html')
 
 # Handle signup requests
 def signup_view(request):
@@ -30,7 +30,7 @@ def signup_view(request):
         password = hashlib.md5(request.POST.get('password').encode('utf-8')).hexdigest()
         register_user(username, password)
         return HttpResponseRedirect('/login')
-    return render(request, 'signup-alex.html')
+    return render(request, 'signup.html')
 
 load_dotenv()
 
