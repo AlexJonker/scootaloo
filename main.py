@@ -1,9 +1,36 @@
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import path
-from django.views.generic import TemplateView
-from django.conf import settings
 from django.conf.urls.static import static
-from dotenv import load_dotenv
+from django.views.generic import TemplateView
 import os
+from scripts.login_system import *
+from dotenv import load_dotenv
+
+
+create_database()
+create_user_table()
+
+# Handle login requests
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = hashlib.md5(request.POST.get('password').encode('utf-8')).hexdigest()
+        print(f"Login attempt: {username} {password}")
+        if verify_login(username, password):
+            return HttpResponse("Login successful!")
+        else:
+            return HttpResponse("Invalid login credentials!")
+    return render(request, 'login.html')
+
+# Handle signup requests
+def signup_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = hashlib.md5(request.POST.get('password').encode('utf-8')).hexdigest()
+        register_user(username, password)
+        return HttpResponseRedirect('/login')
+    return render(request, 'signup.html')
 
 load_dotenv()
 
@@ -26,10 +53,12 @@ TEMPLATES = [
 ]
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='index.html'), name='homepage'),
+    path('', TemplateView.as_view(template_name='home.html'), name='homepage'),
     path('about', TemplateView.as_view(template_name='about.html', extra_context={
         'title': 'scootaloo',
         'author': 'Alex, Natas and Brent'
     }), name='aboutpage'),
-    path('login', TemplateView.as_view(template_name='login.html'), name='login'),
-] + static(STATIC_URL, document_root=STATICFILES_DIRS[0])
+    path('login', login_view, name='login'),
+    path('signup', signup_view, name='signup'),
+] + static('/static/', document_root=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static'))
+

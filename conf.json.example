@@ -1,4 +1,5 @@
 {
+  "ip": "127.0.0.0",
   "port": 8368,
   "mysql": {
     "NAME": "scootaloo",
