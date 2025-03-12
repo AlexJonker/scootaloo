@@ -11,12 +11,15 @@
     <h1>Login</h1>
     <form method="POST" action="/login">
         {% csrf_token %}
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" required>
-        <br><br>
+        <label for="identifier">Username or E-mail</label>
+        <input type="text" id="identifier" name="identifier" required>
         <label for="password">Password</label>
         <input type="password" id="password" name="password" required>
-        <br><br>
+        <br>
+        {% if error %}
+        <div style="color: red; font-weight: bold;">{{ error }}</div>
+        {% endif %}
+        <br>
         <button type="submit">Login</button>
     </form>
     <p>Don't have an account? <a href="/signup">Sign up</a></p>
