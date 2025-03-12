@@ -82,7 +82,6 @@ def register_user(username, email, password):
     return True
 
 
-from django.contrib import messages
 
 def login_view(request):
     if request.method == 'POST':
@@ -90,7 +89,11 @@ def login_view(request):
         password = hashlib.md5(request.POST.get('password').encode('utf-8')).hexdigest()
         
         if verify_login(identifier, password):
-            return HttpResponse("Login successful!")
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM users WHERE (username=%s OR email=%s) AND password=%s", (identifier, identifier, password))
+            user = cursor.fetchone()
+            return HttpResponse(f"Login successful! Welcome {user[1]} (Email: {user[2]}, UserID: {user[0]})")
         else:
             return render(request, 'login.html', {'error': 'Invalid login credentials!'})
 
